@@ -133,11 +133,26 @@ export const MIDWEIGHT_SPACESHIP: Pattern = {
   name: '中型飞船 (MWSS)',
   description: '中型移动飞船，每4代向右移动2格',
   cells: [
-    [false, false, true, false, false, false],
-    [false, true, false, false, true, false],
+    [false, false, false, true, false, false],
+    [false, true, false, false, false, true],
     [true, false, false, false, false, false],
-    [true, false, false, false, true, false],
-    [true, true, true, true, false, false]
+    [true, false, false, false, false, true],
+    [true, true, true, true, true, false]
+  ],
+  category: 'spaceship'
+};
+
+// 移动物体 - 重型飞船
+export const HEAVYWEIGHT_SPACESHIP: Pattern = {
+  id: 'hwss',
+  name: '重型飞船 (HWSS)',
+  description: '重型移动飞船，每4代向右移动2格',
+  cells: [
+    [false, false, false, true, true, false, false],
+    [false, true, false, false, false, false, true],
+    [true, false, false, false, false, false, false],
+    [true, false, false, false, false, false, true],
+    [true, true, true, true, true, true, false]
   ],
   category: 'spaceship'
 };
@@ -194,6 +209,7 @@ export const CLASSIC_PATTERNS: Pattern[] = [
   GLIDER,
   LIGHTWEIGHT_SPACESHIP,
   MIDWEIGHT_SPACESHIP,
+  HEAVYWEIGHT_SPACESHIP,
   R_PENTOMINO,
   PENTADECATHLON,
   LOAF
