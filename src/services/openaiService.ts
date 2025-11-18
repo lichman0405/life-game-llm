@@ -120,7 +120,11 @@ export class OpenAIService {
   "explanation": "详细的生成说明"
 }
 
-请确保cells是一个二维数组，使用true表示存活细胞，false表示死亡细胞。
+要求：
+1. cells 是一个二维数组，使用 true 表示存活细胞，false 表示死亡细胞
+2. 图案大小建议在 5x5 到 20x20 之间
+3. 确保 cells 数组的每一行长度相同
+4. category 必须是 "still"、"oscillator"、"spaceship" 或 "other" 之一
 `;
 
     try {
@@ -129,15 +133,35 @@ export class OpenAIService {
       
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0]);
-        return {
-          content: response,
-          pattern: parsed.pattern,
-          analysis: parsed.explanation
-        };
+        
+        // 验证并补全 pattern 数据
+        if (parsed.pattern && parsed.pattern.cells && Array.isArray(parsed.pattern.cells)) {
+          const generatedPattern = {
+            id: `ai-generated-${Date.now()}`, // 自动生成唯一 ID
+            name: parsed.pattern.name || '生成的图案',
+            description: parsed.pattern.description || description,
+            cells: parsed.pattern.cells,
+            category: ['still', 'oscillator', 'spaceship', 'other'].includes(parsed.pattern.category) 
+              ? parsed.pattern.category 
+              : 'other',
+            author: 'AI Generated'
+          };
+          
+          return {
+            content: response,
+            pattern: generatedPattern,
+            analysis: parsed.explanation || '图案已生成'
+          };
+        } else {
+          return {
+            content: response,
+            analysis: '无法解析AI生成的图案结构，请重试'
+          };
+        }
       } else {
         return {
           content: response,
-          analysis: '无法解析AI生成的图案'
+          analysis: '无法从AI响应中提取JSON数据，请重试'
         };
       }
     } catch (error) {
@@ -267,7 +291,7 @@ ${gridString}
     density: number;
     gridSize: number;
     isStable: boolean;
-    stabilityType: string;
+    stabilityType: string | null;
     oscillatorPeriod: number;
     grid: boolean[][];
   }): Promise<AIResponse> {
