@@ -200,6 +200,7 @@ export const useGameStore = defineStore('game', () => {
     if (gameEngine.value) {
       isRunning.value = false; // 暂停游戏
       generation.value = 0; // 重置代数
+      gameEngine.value.clear(); // 清空网格
       const patternWidth = pattern.cells[0]?.length || 0;
       gameEngine.value.loadPattern(
         pattern.cells, 

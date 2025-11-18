@@ -129,10 +129,14 @@ export class OpenAIService {
 
     try {
       const response = await this.generateText(prompt);
+      console.log('AI 原始响应:', response);
+      
       const jsonMatch = response.match(/\{[\s\S]*\}/);
+      console.log('提取的 JSON:', jsonMatch?.[0]);
       
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0]);
+        console.log('解析后的数据:', parsed);
         
         // 验证并补全 pattern 数据
         if (parsed.pattern && parsed.pattern.cells && Array.isArray(parsed.pattern.cells)) {
@@ -147,18 +151,22 @@ export class OpenAIService {
             author: 'AI Generated'
           };
           
+          console.log('最终 pattern 对象:', generatedPattern);
+          
           return {
             content: response,
             pattern: generatedPattern,
             analysis: parsed.explanation || '图案已生成'
           };
         } else {
+          console.error('pattern 结构无效:', parsed);
           return {
             content: response,
             analysis: '无法解析AI生成的图案结构，请重试'
           };
         }
       } else {
+        console.error('未找到 JSON 数据');
         return {
           content: response,
           analysis: '无法从AI响应中提取JSON数据，请重试'

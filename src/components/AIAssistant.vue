@@ -218,7 +218,10 @@ const generatePattern = async () => {
   
   isGenerating.value = true;
   try {
+    console.log('开始生成图案，描述:', patternDescription.value);
     const result = await openaiService.generatePattern(patternDescription.value);
+    console.log('AI 返回结果:', result);
+    console.log('生成的 pattern:', result.pattern);
     generatedPattern.value = result;
   } catch (error) {
     console.error('Generate pattern failed:', error);
@@ -280,12 +283,36 @@ const answerQuestion = async () => {
 
 // 应用生成的图案
 const applyGeneratedPattern = () => {
+  console.log('应用图案 - generatedPattern:', generatedPattern.value);
+  console.log('应用图案 - pattern 数据:', generatedPattern.value?.pattern);
+  
   if (generatedPattern.value?.pattern) {
+    const pattern = generatedPattern.value.pattern;
+    
+    // 验证 pattern 数据
+    if (!pattern.cells || !Array.isArray(pattern.cells) || pattern.cells.length === 0) {
+      alert('图案数据无效：缺少 cells 数组');
+      return;
+    }
+    
+    console.log('图案 cells:', pattern.cells);
+    console.log('图案大小:', pattern.cells.length, 'x', pattern.cells[0]?.length);
+    
     if (gameStore.isRunning) {
       gameStore.pauseGame();
     }
-    gameStore.loadPattern(generatedPattern.value.pattern);
-    clearGeneratedPattern();
+    
+    try {
+      gameStore.loadPattern(pattern);
+      alert('图案已成功应用到网格！');
+      // 不立即清除，让用户看到结果
+      // clearGeneratedPattern();
+    } catch (error) {
+      console.error('应用图案失败:', error);
+      alert('应用图案失败: ' + (error as Error).message);
+    }
+  } else {
+    alert('没有可用的图案数据');
   }
 };
 

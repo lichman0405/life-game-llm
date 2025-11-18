@@ -117,12 +117,12 @@ export const GLIDER: Pattern = {
 export const LIGHTWEIGHT_SPACESHIP: Pattern = {
   id: 'lwss',
   name: '轻型飞船 (LWSS)',
-  description: '经典的移动飞船，每4代向右移动一格',
+  description: '经典的移动飞船，每4代向右移动2格',
   cells: [
-    [true, false, false, true, false],
-    [false, false, false, false, true],
+    [false, true, false, false, true],
+    [true, false, false, false, false],
     [true, false, false, false, true],
-    [false, true, true, true, true]
+    [true, true, true, true, false]
   ],
   category: 'spaceship'
 };
@@ -131,13 +131,13 @@ export const LIGHTWEIGHT_SPACESHIP: Pattern = {
 export const MIDWEIGHT_SPACESHIP: Pattern = {
   id: 'mwss',
   name: '中型飞船 (MWSS)',
-  description: '中型移动飞船',
+  description: '中型移动飞船，每4代向右移动2格',
   cells: [
-    [false, true, true, true, true, true],
+    [false, false, true, false, false, false],
+    [false, true, false, false, true, false],
     [true, false, false, false, false, false],
-    [false, false, false, false, false, true],
     [true, false, false, false, true, false],
-    [false, true, false, false, false, false]
+    [true, true, true, true, false, false]
   ],
   category: 'spaceship'
 };
@@ -146,42 +146,38 @@ export const MIDWEIGHT_SPACESHIP: Pattern = {
 export const R_PENTOMINO: Pattern = {
   id: 'r_pentomino',
   name: 'R-pentomino',
-  description: '著名的较小图案，产生复杂的行为',
+  description: '著名的混沌图案，经过1103代后稳定，产生6个滑翔机',
   cells: [
-    [false, true, true, false],
-    [true, true, false, false],
-    [false, true, false, false]
+    [false, true, true],
+    [true, true, false],
+    [false, true, false]
   ],
   category: 'other'
 };
 
-// 特殊图案 - 培根三角
+// 特殊图案 - 十五格振荡器
 export const PENTADECATHLON: Pattern = {
   id: 'pentadecathlon',
-  name: '培根三角 (Pentadecathlon)',
+  name: '十五格振荡器 (Pentadecathlon)',
   description: '周期为15的振荡器',
   cells: [
-    [false, false, true, false, false],
-    [false, false, true, false, false],
-    [true, true, false, true, true],
-    [false, false, true, false, false],
-    [false, false, true, false, false],
-    [false, false, true, false, false],
-    [true, true, false, true, true],
-    [false, false, true, false, false],
-    [false, false, true, false, false]
+    [false, false, true, false, false, false, false, true, false, false],
+    [true, true, false, true, true, true, true, false, true, true],
+    [false, false, true, false, false, false, false, true, false, false]
   ],
   category: 'oscillator'
 };
 
-// 特殊图案 - 蝴蝶结
-export const BOWTIE: Pattern = {
-  id: 'bowtie',
-  name: '蝴蝶结 (Bowtie)',
-  description: '静止图案，看起来像蝴蝶结',
+// 特殊图案 - 面包
+export const LOAF: Pattern = {
+  id: 'loaf',
+  name: '面包 (Loaf)',
+  description: '常见的静止图案',
   cells: [
-    [true, true, false, false, true, true],
-    [true, true, false, false, true, true]
+    [false, true, true, false],
+    [true, false, false, true],
+    [false, true, false, true],
+    [false, false, true, false]
   ],
   category: 'still'
 };
@@ -200,7 +196,7 @@ export const CLASSIC_PATTERNS: Pattern[] = [
   MIDWEIGHT_SPACESHIP,
   R_PENTOMINO,
   PENTADECATHLON,
-  BOWTIE
+  LOAF
 ];
 
 // 按类别分组的图案
